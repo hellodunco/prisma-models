@@ -23,7 +23,7 @@ model Order {
   order_date DateTime
   duration Int
   status String
-  invoice_no String?
+  invoice_no String
   item Item[]
   invoice Invoice?
   customer Customer @relation(fields: [customer_id], references: [id])
