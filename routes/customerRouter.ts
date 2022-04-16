@@ -1,5 +1,5 @@
-const express = require("express");
-const PrismaClient = require("@prisma/client");
+import express, { Response } from "express";
+import { PrismaClient } from "@prisma/client";
 
 const customerRouter = express.Router();
 const prisma = new PrismaClient();
@@ -18,7 +18,7 @@ customerRouter.post("/customer", async (req, res) => {
   res.json(customer);
 });
 
-customerRouter.get("/customers", async (res) => {
+customerRouter.get("/customers", async (res: Response) => {
   const allCustomers = await prisma.customer.findMany();
 
   res.json(allCustomers);
@@ -38,4 +38,4 @@ customerRouter.put("/customer", async (req, res) => {
   res.json(updatedCustomer);
 });
 
-module.exports = customerRouter;
+export default customerRouter;

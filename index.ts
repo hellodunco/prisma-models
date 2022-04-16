@@ -1,6 +1,6 @@
-const express = require("express");
-const customerRouter = require("./routes/customerRouter");
-const orderRouter = require("./routes/orderRouter");
+import express from "express";
+import customerRouter from "./routes/customerRouter";
+import orderRouter from "./routes/orderRouter";
 
 const app = express();
 app.use(express.json());

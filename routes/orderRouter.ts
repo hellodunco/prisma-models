@@ -1,5 +1,5 @@
-const express = require("express");
-const PrismaClient = require("@prisma/client");
+import express, { Response } from "express";
+import { PrismaClient } from "@prisma/client";
 
 const orderRouter = express.Router();
 const prisma = new PrismaClient();
@@ -20,9 +20,10 @@ orderRouter.post("/addOrder", async (req, res) => {
   res.json(Order);
 });
 
-orderRouter.get("/orders", async (res) => {
+orderRouter.get("/orders", async (res: Response) => {
   const allOrders = await prisma.order.findMany();
+
   res.json(allOrders);
 });
 
-module.exports = orderRouter;
+export default orderRouter;
