@@ -1,13 +1,13 @@
-import express from "express";
-import customerRoutes from "./routes/customerRouter.js";
-import orderRoutes from "./routes/orderRouter.js";
+const express = require("express");
+const customerRouter = require("./routes/customerRouter");
+const orderRouter = require("./routes/orderRouter");
 
 const app = express();
 app.use(express.json());
 
 // Customer routes
-app.use("/api", customerRoutes);
-app.use("/api", orderRoutes);
+app.use("/api", customerRouter);
+app.use("/api", orderRouter);
 
 const PORT = 3333;
 app.listen(PORT, () => console.log(`App listening on port: ${PORT}`));
