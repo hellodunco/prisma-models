@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const customerRoute = express.Router();
 const prisma = new PrismaClient();
 
-customerRoute.post("/customer", async (req, res) => {
+customerRoute.post("/customers", async (req, res) => {
   const { customer_name, address, location } = req.body;
 
   const customer = await prisma.customer.create({
@@ -19,9 +19,8 @@ customerRoute.post("/customer", async (req, res) => {
 });
 
 // Get individual customer
-customerRoute.get("/customer", async (req: Request, res: Response) => {
+customerRoute.get("/customer/s:id", async (req: Request, res: Response) => {
   const id = req.params.id;
-
   const customer = await prisma.customer.findUnique({
     where: {
       id: Number(id),
@@ -39,7 +38,7 @@ customerRoute.get("/customers", async (req: Request, res: Response) => {
 });
 
 // Update customer data
-customerRoute.put("/customer", async (req: Request, res: Response) => {
+customerRoute.put("/customers/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
 
   const { location } = req.body;
