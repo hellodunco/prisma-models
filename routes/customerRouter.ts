@@ -41,12 +41,14 @@ customerRoute.get("/customers", async (req: Request, res: Response) => {
 customerRoute.put("/customers/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
 
-  const { location } = req.body;
+  const { customer_name, address, location } = req.body;
   const updatedCustomer = await prisma.customer.update({
     where: {
       id: Number(id),
     },
     data: {
+      customer_name,
+      address,
       location,
     },
   });
