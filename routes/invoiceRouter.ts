@@ -55,15 +55,7 @@ invoiceRoute.get("/invoices/:id", async (req: Request, res: Response) => {
 // Update invoice
 invoiceRoute.put("/invoices/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
-  let {
-    invoice_no,
-    customer_id,
-    order_no,
-    invoice_date,
-    due_date,
-    duration,
-    status,
-  } = req.body;
+  let { customer_id, invoice_date, due_date, duration, status } = req.body;
 
   invoice_date = convertDate(invoice_date);
   due_date = convertDate(due_date);
@@ -72,9 +64,7 @@ invoiceRoute.put("/invoices/:id", async (req: Request, res: Response) => {
       invoice_no: id,
     },
     data: {
-      invoice_no,
       customer_id: Number(customer_id),
-      order_no,
       invoice_date,
       due_date,
       duration: Number(duration),

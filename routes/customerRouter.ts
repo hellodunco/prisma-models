@@ -19,7 +19,7 @@ customerRoute.post("/customers", async (req, res) => {
 });
 
 // Get individual customer
-customerRoute.get("/customer/s:id", async (req: Request, res: Response) => {
+customerRoute.get("/customers/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
   const customer = await prisma.customer.findUnique({
     where: {
@@ -54,6 +54,17 @@ customerRoute.put("/customers/:id", async (req: Request, res: Response) => {
   });
 
   res.json(updatedCustomer);
+});
+
+// Delete a customer
+customerRoute.delete("/customers/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const deletedCustomer = await prisma.customer.delete({
+    where: {
+      id: Number(id),
+    },
+  });
+  res.json(deletedCustomer);
 });
 
 export default customerRoute;

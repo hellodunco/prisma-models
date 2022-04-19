@@ -48,7 +48,7 @@ orderRoute.get("/orders/:id", async (req: Request, res: Response) => {
 // Update order
 orderRoute.get("/orders/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
-  let { order_no, customer_id, items, order_date, duration, status } = req.body;
+  let { customer_id, items, order_date, duration, status } = req.body;
 
   order_date = convertDate(order_date);
   const updatedOrder = await prisma.order.update({
@@ -56,7 +56,6 @@ orderRoute.get("/orders/:id", async (req: Request, res: Response) => {
       order_no: id,
     },
     data: {
-      order_no,
       customer_id,
       items,
       order_date,
