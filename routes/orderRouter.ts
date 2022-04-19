@@ -5,11 +5,24 @@ const orderRoute = express.Router();
 const prisma = new PrismaClient();
 
 // Create order
-orderRoute.post("/order", async (req: Request, res: Response) => {
-  const { order_no, customer_id, items, order_date, duration, status } =
-    req.body;
+orderRoute.post("/orders", async (req: Request, res: Response) => {
+  let { order_no, customer_id, items, order_date, duration, status } = req.body;
 
-  const Order = await prisma.order.create({
+  function convertDate(date: String) {
+    const stringDate = date.split("-");
+    // Please pay attention to the month (parts[1]); JavaScript counts months from 0:
+    // January - 0, February - 1, etc.
+
+    const yyyy = Number(stringDate[0]);
+    const mm = Number(stringDate[1]) - 1;
+    const dd = Number(stringDate[2]);
+
+    return new Date(yyyy, mm, dd);
+  }
+
+  order_date = convertDate(order_date);
+
+  const order = await prisma.order.create({
     data: {
       order_no,
       customer_id,
@@ -20,7 +33,7 @@ orderRoute.post("/order", async (req: Request, res: Response) => {
     },
   });
 
-  res.json(Order);
+  res.json(order);
 });
 
 // Get all orders
@@ -33,7 +46,6 @@ orderRoute.get("/orders", async (req: Request, res: Response) => {
 // Get specific order
 orderRoute.get("/orders/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
-  const items = req.body.items;
 
   const order = await prisma.order.findUnique({
     where: {
