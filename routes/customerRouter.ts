@@ -1,10 +1,10 @@
 import express, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
-const customerRouter = express.Router();
+const customerRoute = express.Router();
 const prisma = new PrismaClient();
 
-customerRouter.post("/customer", async (req, res) => {
+customerRoute.post("/customer", async (req, res) => {
   const { customer_name, address, location } = req.body;
 
   const customer = await prisma.customer.create({
@@ -19,27 +19,30 @@ customerRouter.post("/customer", async (req, res) => {
 });
 
 // Get individual customer
-customerRouter.get("/customer", async (req: Request, res: Response) => {
-  const { id } = req.body;
+customerRoute.get("/customer", async (req: Request, res: Response) => {
+  const id = req.params.id;
 
-  const allCustomers = await prisma.customer.findUnique({
+  const customer = await prisma.customer.findUnique({
     where: {
       id: Number(id),
     },
   });
 
-  res.json(allCustomers);
+  res.json(customer);
 });
 
-customerRouter.get("/customers", async (req: Request, res: Response) => {
+// Get all customers
+customerRoute.get("/customers", async (req: Request, res: Response) => {
   const allCustomers = await prisma.customer.findMany();
 
   res.json(allCustomers);
 });
 
 // Update customer data
-customerRouter.put("/customer", async (req, res) => {
-  const { id, location } = req.body;
+customerRoute.put("/customer", async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const { location } = req.body;
   const updatedCustomer = await prisma.customer.update({
     where: {
       id: Number(id),
@@ -52,4 +55,4 @@ customerRouter.put("/customer", async (req, res) => {
   res.json(updatedCustomer);
 });
 
-export default customerRouter;
+export default customerRoute;

@@ -4,6 +4,7 @@ import orderRouter from "./routes/orderRouter";
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Customer routes
 app.use("/api", customerRouter);
