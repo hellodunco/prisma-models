@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { convertDate } from "../index";
 
 const orderRoute = express.Router();
 const prisma = new PrismaClient();
@@ -7,18 +8,6 @@ const prisma = new PrismaClient();
 // Create order
 orderRoute.post("/orders", async (req: Request, res: Response) => {
   let { order_no, customer_id, items, order_date, duration, status } = req.body;
-
-  function convertDate(date: String) {
-    const stringDate = date.split("-");
-    // Please pay attention to the month (parts[1]); JavaScript counts months from 0:
-    // January - 0, February - 1, etc.
-
-    const yyyy = Number(stringDate[0]);
-    const mm = Number(stringDate[1]) - 1;
-    const dd = Number(stringDate[2]);
-
-    return new Date(yyyy, mm, dd);
-  }
 
   order_date = convertDate(order_date);
 
@@ -59,14 +48,20 @@ orderRoute.get("/orders/:id", async (req: Request, res: Response) => {
 // Update order
 orderRoute.get("/orders/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
-  const items = req.body.items;
+  let { order_no, customer_id, items, order_date, duration, status } = req.body;
 
+  order_date = convertDate(order_date);
   const updatedOrder = await prisma.order.update({
     where: {
       order_no: id,
     },
     data: {
-      items: JSON.parse(items),
+      order_no,
+      customer_id,
+      items,
+      order_date,
+      duration: Number(duration),
+      status,
     },
   });
 
