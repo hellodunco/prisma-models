@@ -5,7 +5,12 @@ module.exports = {
     './src/**/*.{html,js, ts}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'spartecblue': '#243143',
+        'gold': '#FFD700'
+      }
+    },
   },
   plugins: [],
 }
