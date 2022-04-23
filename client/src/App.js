@@ -1,12 +1,13 @@
-import Navbar from "./components/Navbar";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Customers from './pages/Customers';
 
 function App() {
   return (
-    <div className="App">
-      <div>
-        <Navbar />
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/' element={<Customers />} />
+      </Routes>
+    </Router>
   );
 }
 
