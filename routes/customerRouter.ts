@@ -5,17 +5,21 @@ const customerRoute = express.Router();
 const prisma = new PrismaClient();
 
 customerRoute.post("/customers", async (req, res) => {
-  const { customer_name, address, location } = req.body;
+  try {
+    const { customer_name, address, location } = req.body;
+    const customer = await prisma.customer.create({
+      data: {
+        customer_name,
+        address,
+        location,
+      },
+    });
 
-  const customer = await prisma.customer.create({
-    data: {
-      customer_name,
-      address,
-      location,
-    },
-  });
-
-  res.json(customer);
+    res.json(customer);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 // Get individual customer
