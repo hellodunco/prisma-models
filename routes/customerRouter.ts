@@ -17,58 +17,73 @@ customerRoute.post("/customers", async (req, res) => {
 
     res.json(customer);
   } catch (error) {
-    console.log(error);
     res.status(500).send(error);
   }
 });
 
 // Get individual customer
 customerRoute.get("/customers/:id", async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const customer = await prisma.customer.findUnique({
-    where: {
-      id: Number(id),
-    },
-  });
+  try {
+    const id = req.params.id;
+    const customer = await prisma.customer.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
 
-  res.json(customer);
+    res.json(customer);
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 // Get all customers
 customerRoute.get("/customers", async (req: Request, res: Response) => {
-  const allCustomers = await prisma.customer.findMany();
+  try {
+    const allCustomers = await prisma.customer.findMany();
 
-  res.json(allCustomers);
+    res.json(allCustomers);
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 // Update customer data
 customerRoute.put("/customers/:id", async (req: Request, res: Response) => {
-  const id = req.params.id;
+  try {
+    const id = req.params.id;
 
-  const { customer_name, address, location } = req.body;
-  const updatedCustomer = await prisma.customer.update({
-    where: {
-      id: Number(id),
-    },
-    data: {
-      customer_name,
-      address,
-      location,
-    },
-  });
+    const { customer_name, address, location } = req.body;
+    const updatedCustomer = await prisma.customer.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        customer_name,
+        address,
+        location,
+      },
+    });
 
-  res.json(updatedCustomer);
+    res.json(updatedCustomer);
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 // Delete a customer
 customerRoute.delete("/customers/:id", async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const deletedCustomer = await prisma.customer.delete({
-    where: {
-      id: Number(id),
-    },
-  });
-  res.json(deletedCustomer);
+  try {
+    const id = req.params.id;
+    const deletedCustomer = await prisma.customer.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+    res.json(deletedCustomer);
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 export default customerRoute;
